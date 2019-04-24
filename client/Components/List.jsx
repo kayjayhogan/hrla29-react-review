@@ -12,6 +12,8 @@ class List extends Component {
     this.handleString = this.handleString.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleListEntry = this.handleListEntry.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   handleString(event) {
@@ -33,6 +35,23 @@ class List extends Component {
     console.log(listItem);
   }
 
+  handleDelete(index) {
+    let todos = this.state.array.slice();
+    todos.splice(index, 1);
+    this.setState({
+      array: todos
+    });
+  }
+
+  handleEdit(index) {
+    let todos = this.state.array.slice();
+    let newTodo = prompt('Edit: ', todos[index]);
+    todos[index] = newTodo;
+    this.setState({
+      array: todos
+    });
+  }
+
   render() {
     return(
       <div>
@@ -42,8 +61,8 @@ class List extends Component {
         </form>
         <h3>List:</h3>
         <ul>
-          {this.state.array.map(item =>
-            <ListEntry key={item} item={item} onClick={this.handleListEntry}/>    
+          {this.state.array.map((item, index) =>
+            <ListEntry key={item} item={item} index={index} handleListEntry={this.handleListEntry} handleDelete={this.handleDelete} handleEdit={this.handleEdit}/>    
           )}
         </ul>
       </div>
